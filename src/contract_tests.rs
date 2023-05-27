@@ -46,7 +46,7 @@ mod alpine_user_tests {
     #[test]
     fn create_user_anonymous_success() {
         let deps = mock_dependencies();
-        let test_addr = String::from("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh");
+        let test_addr = String::from("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh");
         
         let test_user = AlpineUser::new(
             deps.as_ref(),
@@ -61,7 +61,7 @@ mod alpine_user_tests {
     #[test]
     fn create_user_with_name_success() {
         let deps = mock_dependencies();
-        let test_addr = String::from("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh");
+        let test_addr = String::from("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh");
         let test_username = String::from("this-Is-A-Valid_Username1234");
         
         let test_user = AlpineUser::new(
@@ -81,7 +81,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -101,7 +101,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -123,7 +123,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -145,7 +145,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -167,7 +167,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -189,7 +189,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -212,7 +212,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, test_username.clone(), &test_user).unwrap();
@@ -231,7 +231,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, test_username.clone(), &test_user).unwrap();
@@ -250,7 +250,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, test_username.clone(), &test_user).unwrap();
@@ -268,14 +268,14 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, String::from("alpine_user_1"), &test_user).unwrap();
 
         let new_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             None
         ).unwrap();
 
@@ -296,7 +296,7 @@ mod alpine_user_tests {
 
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -317,7 +317,7 @@ mod alpine_user_tests {
         //Save User One
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, String::from("alpine_user_1"), &test_user).unwrap();
@@ -325,7 +325,7 @@ mod alpine_user_tests {
         //Save User Two
         let new_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, String::from("alpine_user_2"), &new_user).unwrap();
@@ -333,7 +333,7 @@ mod alpine_user_tests {
         //Save User Three
         let new_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             None
         ).unwrap();
         contract.usernames.save(&mut deps.storage, String::from("alpine_user_3"), &new_user).unwrap();
@@ -351,7 +351,7 @@ mod alpine_user_tests {
 
         let mut test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             None
         ).unwrap();
         let info = mock_info(test_user.address.as_str(), &[]);
@@ -378,10 +378,10 @@ mod alpine_user_tests {
         //Save User One
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("alpine_user_1"))
         ).unwrap();
-        contract.addresses.save(&mut deps.storage, Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"), &test_user).unwrap();
+        contract.addresses.save(&mut deps.storage, Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"), &test_user).unwrap();
 
         //Junk user
         let junk_user = AlpineUser::new(
@@ -403,12 +403,12 @@ mod alpine_user_tests {
         //Save User One
         let test_user = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("alpine_user_1"))
         ).unwrap();
-        contract.addresses.save(&mut deps.storage, Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"), &test_user).unwrap();
+        contract.addresses.save(&mut deps.storage, Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"), &test_user).unwrap();
 
-        let msg = QueryMsg::GetUserByAddr{ address: Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh") };
+        let msg = QueryMsg::GetUserByAddr{ address: Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh") };
         let res = contract.query(deps.as_ref(), mock_env(), msg).unwrap();
         let user: AlpineUserResponse = from_binary(&res).unwrap();
         assert_eq!(user.user, test_user);
@@ -462,12 +462,12 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let invalid_user: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             Some(String::from("nonexistent_user"))
         ).unwrap();
 
@@ -491,12 +491,12 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let info =  MessageInfo {
@@ -523,12 +523,12 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let info = mock_info(alpine_user_a.address.as_str(), &coins(1000, "earth"));
@@ -562,22 +562,22 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let alpine_user_c: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             Some(String::from("USER_C"))
         ).unwrap();
         let alpine_user_d: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             Some(String::from("USER_D"))
         ).unwrap();
         let info = mock_info(alpine_user_a.address.as_str(), &coins(1000, "earth"));
@@ -620,22 +620,22 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let alpine_user_c: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             Some(String::from("USER_C"))
         ).unwrap();
         let alpine_user_d: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             Some(String::from("USER_D"))
         ).unwrap();
         let info = mock_info(alpine_user_a.address.as_str(), &coins(1000, "earth"));
@@ -681,22 +681,22 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let alpine_user_c: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             Some(String::from("USER_C"))
         ).unwrap();
         let alpine_user_d: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             Some(String::from("USER_D"))
         ).unwrap();
         let contract = setup_contract(deps.as_mut());
@@ -741,22 +741,22 @@ mod donation_tests {
         let donation_message: String = String::from("henlo :)");
         let alpine_user_a: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
+            Addr::unchecked("osmo1409ep5zmpxyrh5jpxc8tcw4c0wppkvlqpya9jh"),
             Some(String::from("USER_A"))
         ).unwrap();
         let alpine_user_b: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
+            Addr::unchecked("osmo1ayjl4cm8e2nrnhstx92cr6uuljnumjxgkncs7x"),
             Some(String::from("USER_B")) 
         ).unwrap();
         let alpine_user_c: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
+            Addr::unchecked("osmo1hrm44y69kzdjqq2tn6hh9cq3tzmfsa9rfgv7d9"),
             Some(String::from("USER_C"))
         ).unwrap();
         let alpine_user_d: AlpineUser = AlpineUser::new(
             deps.as_ref(),
-            Addr::unchecked("juno1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
+            Addr::unchecked("osmo1ysehn88p24d7769j4vj07hyndkjj7pccz3j3c9"),
             Some(String::from("USER_D"))
         ).unwrap();
         let contract = setup_contract(deps.as_mut());
