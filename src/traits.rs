@@ -11,8 +11,7 @@ use cosmwasm_std::{
 
 use crate::msg::{
     MultiDonationResponse, 
-    SingleDonationResponse,
-    NumDonationsResponse,
+    DonationCountResponse,
     UsernameAvailableResponse,
     MultiUserResponse,
     AlpineUserResponse
@@ -26,8 +25,7 @@ pub trait Donation: DonationQuery + DonationExecute { }
 pub trait DonationQuery {
     fn get_sent_donations(&self, deps: Deps, sender: String) -> StdResult<MultiDonationResponse>;
     fn get_received_donations(&self, deps: Deps, recipient: String) -> StdResult<MultiDonationResponse>;
-    fn get_single_donation(&self, deps: Deps, id: u64) -> StdResult<SingleDonationResponse>;
-    fn get_num_donations(&self, deps: Deps) -> StdResult<NumDonationsResponse>;
+    fn get_donation_count(&self, deps: Deps) -> StdResult<DonationCountResponse>;
     fn is_username_available(&self, deps: Deps, username: String) -> StdResult<UsernameAvailableResponse>;
     fn get_all_users(&self, deps: Deps) -> StdResult<MultiUserResponse>;
     fn get_user_by_addr(&self, deps: Deps, address: Addr) -> StdResult<AlpineUserResponse>;

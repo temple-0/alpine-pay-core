@@ -23,4 +23,6 @@ pub enum ContractError {
     InvalidUsername { username: String, reason: String },
     #[error("You must send a donation")]
     NoDonation {},
+    #[error("Your donation message can't be more than 250 characters")]
+    DonationMessageTooLong {},
 }

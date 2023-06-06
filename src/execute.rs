@@ -28,10 +28,11 @@ use crate::traits::{
 };
 
 // version info for migration info
-const CONTRACT_NAME: &str = "crates.io:alpine-superchats";
+const CONTRACT_NAME: &str = "crates.io:alpine-pay";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 impl<'a> AlpineContract<'a> {
+    // Instantiate the contract
     pub fn instantiate(
         &self,
         deps: DepsMut,
@@ -44,12 +45,14 @@ impl<'a> AlpineContract<'a> {
         Ok(Response::default())
     }
 
+    // Migrate the contract to a new code ID
     pub fn migrate(
         &self,
         deps: DepsMut,
         _env: Env,
         _msg: MigrateMsg
     ) -> Result<Response, ContractError> {
+        // Verify that the contract name hasn't changed, then set the contract version
         let ver = get_contract_version(deps.storage)?;
         ensure_eq!(ver.contract, CONTRACT_NAME, ContractError::IncorrectContractName { contract_name: String::from(CONTRACT_NAME) });
         set_contract_version(deps.storage, ver.contract, ver.version.clone())?;
@@ -57,6 +60,7 @@ impl<'a> AlpineContract<'a> {
         Ok(Response::default())
     }
 
+    // Routes the execute messages
     pub fn execute(
         &self,
         deps: DepsMut,
@@ -64,8 +68,10 @@ impl<'a> AlpineContract<'a> {
         info: MessageInfo,
         msg: ExecuteMsg,
     ) -> Result<Response, ContractError> {
+        // Either route the message to send_donation or register_user
         match msg {
             ExecuteMsg::SendDonation { sender, recipient, message } => self.send_donation(deps, _env, info, sender, recipient, message),
+            // With register we can authenticate the user here, whereas with SendDonation it's a bit more complex and done later
             ExecuteMsg::RegisterUser { user, username } => {
                 if info.sender != user.address {
                     return Err(ContractError::InvalidWalletAddress { address: user.address.to_string() })
@@ -77,6 +83,7 @@ impl<'a> AlpineContract<'a> {
 }
 
 impl<'a> DonationExecute for AlpineContract<'a> {
+    // Send a donation to the designated user
     fn send_donation(
         &self,
         deps: DepsMut, 
@@ -86,25 +93,36 @@ impl<'a> DonationExecute for AlpineContract<'a> {
         recipient: String, 
         message: String
     ) -> Result<Response, ContractError> {
+        // Verify that there's a recipient
         if recipient.is_empty() {
             return Err(ContractError::EmptyUsername {})
         }
 
-        if info.funds.is_empty() {
+        // Verify that funds are attached
+        if info.funds.is_empty() || info.funds[0].amount.to_string() == String::from("0") {
             return Err(ContractError::NoDonation{})
         }
 
+        // Get an Alpine user for the sender. This technically allows a user to send if they're unregistered
         let sender_user = match sender.is_empty() {
             true => AlpineUser::new(deps.as_ref(), info.sender.clone(), None)?,
             false => self.find_alpine_username(deps.storage, sender)?
         };
 
+        // Authenticate the sender
         if info.sender != sender_user.address {
             return Err(ContractError::InvalidWalletAddress { address: sender_user.address.to_string() })
         }
 
+        // Validate that the donation message isn't too long
+        if message.len() > 250 {
+            return Err(ContractError::DonationMessageTooLong {  })
+        }
+
+        // Find the recipient user by their username
         let recipient_user = self.find_alpine_username(deps.storage, recipient)?;
 
+        // Build out the donation message
         let donation = DonationInfo {
             sender: sender_user,
             recipient: recipient_user,
@@ -113,12 +131,14 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             timestamp: Some(_env.block.time)
         };
 
+        // Update the donations and set the new donation's ID
         let id = self.increment_donations(deps.storage)?;
         self.donations.update(deps.storage, &id.to_string(), |old| match old {
             Some(_) => Err(ContractError::Unauthorized {}),
             None => Ok(donation.clone())
         })?;
 
+        // Forward the funds to the relevant wallet address
         let bankmsg = BankMsg::Send {
             to_address: donation.recipient.address.to_string(),
             amount: donation.amount.clone()
@@ -127,6 +147,7 @@ impl<'a> DonationExecute for AlpineContract<'a> {
         Ok(Response::new().add_message(bankmsg))
     }
 
+    // Register a new Alpine user
     fn register_user(
         &self,
         deps: DepsMut,
@@ -134,12 +155,13 @@ impl<'a> DonationExecute for AlpineContract<'a> {
         mut user: AlpineUser,
         username: String
     ) -> Result<Response, ContractError> {
-        
+        // Validate the username
         let valid_username = match validate_username(username.clone()) {
             Ok(u) => u,
             Err(e) => return Err(e)
         };
 
+        // Verify that the user isn't already registered 
         user = match user.username.is_empty() {
             true => {
                 match self.get_user_by_address(deps.storage, user.address.clone()) {
@@ -152,6 +174,7 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             false => return Err(ContractError::UserAlreadyExists {  } )
         };
 
+        // Verify that the desired username isn't already taken
         let searched_username = match self.usernames.may_load(deps.storage, valid_username.clone()) {
             Ok(result) => match result {
                 Some(_) => Err(ContractError::UsernameNotAvailable { username: valid_username.clone() }),
@@ -160,6 +183,7 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             Err(e) => Err(ContractError::Std(e))
         }?;
 
+        // Set the user's username, then save them to the contract
         user.username = searched_username;
         self.usernames.save(deps.storage, username, &user)?;
         self.addresses.save(deps.storage, user.address.clone(), &user)?;
@@ -168,11 +192,14 @@ impl<'a> DonationExecute for AlpineContract<'a> {
     }
 }
 
+// Validate that the user's username is accepted
 fn validate_username(username: String) -> Result<String, ContractError> {
+    // Users can't register with an empty username.
     if username.is_empty() {
         return Err(ContractError::EmptyUsername {})
     }
 
+    // Users can't create a name with more than 32 characters
     if username.len() > 32 {
         return Err(ContractError::InvalidUsername { 
             username,
@@ -180,6 +207,7 @@ fn validate_username(username: String) -> Result<String, ContractError> {
         })
     }
 
+    // Verify that only alphanumeric characters, dashes, and underscores are used to mitigate the risk of injection attacks
     for c in username.chars() {
         if !(c.is_ascii_alphabetic() || c.is_numeric() || c == '-' || c == '_') {
             return Err(ContractError::InvalidUsername { 
