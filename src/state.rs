@@ -29,7 +29,9 @@ use crate::error::ContractError;
 pub struct AlpineContract<'a> {
     pub donation_count: Item<'a, u64>,
     pub donations: IndexedMap<'a, &'a str, DonationInfo, DonationIndexes<'a>>,
+    // Create a data structure which maps registered usernames to user objects
     pub usernames: Map<'a, String, AlpineUser>,
+    // Create a data structure which maps registered addresses to user objects
     pub addresses: Map<'a, Addr, AlpineUser>
 }
 
@@ -47,6 +49,7 @@ impl Default for AlpineContract<'static> {
 }
 
 impl<'a> AlpineContract<'a> {
+    // On contract instantiation, create all of the relevant data structures
     fn new(
         donation_count_key: &'a str,
         donations: &'a str,
@@ -65,16 +68,19 @@ impl<'a> AlpineContract<'a> {
         }
     }
 
+    // Return the number of donations
     pub fn donation_count(&self, storage: &dyn Storage) -> StdResult<u64> {
         Ok(self.donation_count.may_load(storage)?.unwrap_or_default())
     }
 
+    // Increment the number of donations. Only called during donation send
     pub fn increment_donations(&self, storage: &mut dyn Storage) -> StdResult<u64> {
         let val = self.donation_count(storage)? + 1;
         self.donation_count.save(storage, &val)?;
         Ok(val)
     }
 
+    // Return an AlpineUser from a query with the username
     pub fn find_alpine_username(&self, storage: &dyn Storage, username: String) -> Result<AlpineUser, ContractError> {
         let mut usernames = self.usernames.keys(
             storage,
@@ -82,13 +88,15 @@ impl<'a> AlpineContract<'a> {
             None,
             Order::Descending
         );
-
+        // Iterate through the alpine users and check if any of the usernames match the queried username
+        // The intention here is to pull an Alpine user regardless of the character case when sending/querying donations
         let found = match (*usernames).into_iter().filter(
             |u| u.as_deref().unwrap().to_lowercase() == username.to_lowercase()).next() {
                 Some(user) => user?,
                 None => String::from("")
             };
 
+        // Pull the Alpine user for the designated username
         let alpine_user = match self.usernames.may_load(storage, found.clone())? {
             Some(user) => user,
             None => return Err(ContractError::UserNotFound { user: username })
@@ -97,6 +105,7 @@ impl<'a> AlpineContract<'a> {
         Ok(alpine_user)
     }
 
+    // Check if a username is taken regardless of username casing
     pub fn contains_username(&self, storage: &dyn Storage, username: String) -> bool {
         let usernames: Vec<Result<std::string::String, cosmwasm_std::StdError>> = self.usernames.keys(
             storage,
@@ -110,6 +119,7 @@ impl<'a> AlpineContract<'a> {
         search_result
     }
 
+    // Get an Alpine user by their wallet address
     pub fn get_user_by_address(&self, storage: &dyn Storage, address: Addr) -> Result<AlpineUser, ContractError> {
         let alpine_user = match self.addresses.may_load(storage, address.clone())? {
             Some(user) => user,
@@ -120,6 +130,7 @@ impl<'a> AlpineContract<'a> {
     }
 }
 
+// Define an Alpine user as a username and wallet address
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct AlpineUser {
     pub username: String,
@@ -127,6 +138,7 @@ pub struct AlpineUser {
 }
 
 impl AlpineUser {
+    // Generate an Alpine user, defining their address and a blank username
     pub fn new(deps: Deps, address: Addr, username: Option<String>) -> Result<AlpineUser, ContractError> {
         let address = match deps.api.addr_validate(address.as_str()) {
             Ok(addr) => addr,
@@ -141,6 +153,7 @@ impl AlpineUser {
         Ok(AlpineUser { username, address })
     }
 
+    // Create an empty Alpine user
     pub fn empty() -> AlpineUser {
         AlpineUser { username: String::from(""), address: Addr::unchecked("") }
     }
