@@ -1,3 +1,4 @@
+use cosmwasm_std::{Addr, coins, Decimal};
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::{
     ensure_eq,
@@ -138,13 +139,26 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             None => Ok(donation.clone())
         })?;
 
+        let total_donation_amount = donation.amount.clone()[0].amount;
+        let donation_fee = Decimal::percent(3) * donation.amount.clone()[0].amount;
+        let recipient_donation = &coins((total_donation_amount - donation_fee).u128(), donation.amount.clone()[0].denom.clone());
+        let commission = &coins(donation_fee.u128(), donation.amount.clone()[0].denom.clone());
+
         // Forward the funds to the relevant wallet address
-        let bankmsg = BankMsg::Send {
+        let recipient_bank_msg = BankMsg::Send {
             to_address: donation.recipient.address.to_string(),
-            amount: donation.amount.clone()
+            amount: recipient_donation.clone()
         };
 
-        Ok(Response::new().add_message(bankmsg))
+        // Take 3% donation fee to Alpine admin address
+        let fee_bank_msg = BankMsg::Send { 
+            to_address: Addr::unchecked("osmo1zw5337y7a7ajj2jz4t0teyzcy5dup5k8wjz88a").into_string(), 
+            amount: commission.clone()
+        };
+
+        let tx_messages = vec![recipient_bank_msg, fee_bank_msg].into_iter();
+
+        Ok(Response::new().add_messages(tx_messages))
     }
 
     // Register a new Alpine user
