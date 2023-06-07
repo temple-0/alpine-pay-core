@@ -10,6 +10,11 @@ The Alpine Pay Core Contract provides all of the core functionality for Alpine. 
 
 The Alpine Pay Core Contract does not facilitate the storage of social media data due to the lack of confidentiality of data stored on the blockchain. It also does not facilitate the purchase of crypto with fiat currency. These features are provided by the Alpine Pay Frontend.
 
+## Donation Fee Acknowledgement
+By using the Alpine Pay Core Contract, you acknowledge and agree that Alpine will charge a fee of 3% on any donations received by a user ("Donation Fee"). The Donation Fee is deducted from the total amount of each donation before it is credited to the user's account. Please note that the Donation Fee is subject to change, and Alpine reserves the right to modify the fee structure with prior notice. Any changes to the Donation Fee will be communicated through an update to the README.
+
+By continuing to use the platform or service, you indicate your acceptance of the Donation Fee and any updates or modifications to the fee structure.
+
 ## Usage
 All usage of the Alpine Pay Core Contract assumes that you have a proper development environment set up for a Cosmos chain. **The following documentation will assume that you are using Osmosis in the Testnet environment**, but technically you can use other Cosmos chains which are compatible with the CosmWasm code used in the Alpine Pay Core Contract, such as Juno. For more information on setting up your development environment, see the documentation for your chosen chain.
 
