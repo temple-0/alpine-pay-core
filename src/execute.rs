@@ -88,7 +88,7 @@ impl<'a> DonationExecute for AlpineContract<'a> {
     fn send_donation(
         &self,
         deps: DepsMut, 
-        _env: Env, 
+        env: Env, 
         info: MessageInfo,
         sender: String,
         recipient: String, 
@@ -129,7 +129,7 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             recipient: recipient_user,
             amount: info.funds,
             message: message,
-            timestamp: Some(_env.block.time)
+            timestamp: Some(env.block.time)
         };
 
         // Update the donations and set the new donation's ID
@@ -156,9 +156,13 @@ impl<'a> DonationExecute for AlpineContract<'a> {
             amount: commission.clone()
         };
 
+        let attributes = vec![("sender_address", donation.sender.address.to_string()), ("sender_username", donation.sender.username.to_string()), 
+                        ("recipient_address", donation.recipient.address.to_string()), ("recipient_username", donation.recipient.username.to_string()),
+                        ("amount", donation.amount[0].amount.to_string()), ("message", donation.message), ("timestamp", env.block.time.to_string()),
+                        ("id", id.to_string()) ].into_iter();
         let tx_messages = vec![recipient_bank_msg, fee_bank_msg].into_iter();
 
-        Ok(Response::new().add_messages(tx_messages))
+        Ok(Response::new().add_messages(tx_messages).add_attributes(attributes))
     }
 
     // Register a new Alpine user
